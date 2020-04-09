@@ -33,4 +33,13 @@ export default {
     color: #0D1866;
   }
 
+  hr {
+    height: 1px;
+    /* Set the hr color */
+    color: #0D1866; /* old IE */
+    background-color: #0D1866; /* Modern Browsers */
+  }
+
+
+
 </style>

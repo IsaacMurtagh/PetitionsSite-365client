@@ -1,27 +1,31 @@
 <template>
-    <div class="card" style="width: 32rem">
+    <body class="card bg-info" style="width: 36rem">
 
         <div class="card-header">
-            <div class="card-title text-center"> Petition name</div>
+            <div class="card-title text-center text-light font-weight-bold">{{title}}</div>
         </div>
-        <img class="card-img-top" src="https://www.loveandoliveoil.com/wp-content/uploads/2015/03/soy-sauce-noodlesH2.jpg">
-        <div class="card-body">
-            <div class="card-text" id="category">Category: Animals</div>
-            <div class="card-text" id="author">Authored by: Isaac Murtagh</div>
+        <div class="card-body bg-light">
+            <div class="card-text" id="category">Category: {{category}}</div>
+            <div class="card-text" id="author">Authored by: {{author}}</div>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-light">
             <div class="card-text" id="description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vestibulum volutpat elit in ultricies. Suspendisse eget egestas magna. In lacinia libero nec dignissim fermentum. Maecenas consectetur mi risus, et accumsan purus consequat eu. Nullam porttitor tellus nisl. In hac habitasse platea dictumst. Maecenas cursus justo nisi, sit amet mattis risus ultricies gravida. Sed ac mauris arcu. Sed pharetra neque nec faucibus facilisis.
+                {{description}}
             </div>
-            <div class="card-text" id="signatures"></div>
         </div>
-        <div class="card-footer" id="sigantures">Signed by 13 people</div>
-    </div>
+        <img class="card-img-top" :src="image">
+        <div class="card-footer text-light">
+            <p class="card-text d-inline"  id="sigantures">Signed by {{signatures}} people</p>
+            <button class="float-right btn btn-light" id="sign-petition">Rate</button>
+        </div>
+
+    </body>
 </template>
 
 <script>
     export default {
-        name: "PetitionCard"
+        name: "PetitionCard",
+        props: ["title", "category", "author", "signatures", "image", "description"]
     }
 </script>
 
