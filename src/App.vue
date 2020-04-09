@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" >
+    <div class="bg-info">
+      <NavigationBar/>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavigationBar from "@/components/NavigationBar";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    NavigationBar,
+  },
+
+  data () {
+    return {
+      siteDomain: 'iratethat.com',
+      siteName: "I Rate That Petitions",
+      siteDescription: "The only petition site where you can take your opinions, and lay it on THICK",
+      loggedIn: true
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+  .text-darkblue {
+    color: #0D1866;
+  }
+
 </style>
