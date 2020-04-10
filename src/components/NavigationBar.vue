@@ -1,9 +1,9 @@
 <template>
     <body class="container bg-info">
         <div class="row" id="top-nav">
-            <div class="col-8 col-md-10"></div>
+            <div class="col-8 col-lg-10"></div>
 <!--            If not logged in-->
-                <div class="col-2 col-md-1">
+                <div class="col-2 col-lg-1">
                     <router-link v-if="this.$parent.$data.loggedIn" to="/login" class="btn btn-outline-light">Login</router-link>
                     <router-link v-else to="/profile" class="btn btn-outline-light">Profile</router-link>
                 </div>

@@ -1,16 +1,21 @@
 <template>
     <body class="container">
     <hr>
+    <button v-on:click="getAllPetitions">click</button>
         <div class="row">
             <div class="col-1"></div>
 <!--            Left Toolbar-->
             <div class="col col-12 col-md-2">
-                content
+                {{petitions}}
             </div>
 <!--            Petition cards-->
             <div class="col col-12 col-md-8">
                 <div class="row justify-content-center">
-                    <petition-card style="margin-bottom: 20px"></petition-card>
+                    <petition-card v-for="petition in petitions" :key="petition.petitionId" :author="petition.authorName"
+                                   :title="petition.title" :category="petition.category" :signatures="petition.signatureCount"
+                                   :id="petition.petitionId"
+                                   style="margin-bottom: 20px">
+                    </petition-card>
                 </div>
             </div>
             <div class="col-1"></div>
@@ -19,17 +24,29 @@
 </template>
 
 <script>
-    import PetitionCard from "@/components/PetitionCard";
+    import PetitionCard from "@/components/PetitionBasicCard";
     import Api from "@/Api";
-
-    console.log(Api.getPetitions({}));
 
     export default {
         name: "Search",
         components: {PetitionCard},
+
         data() {
             return {
                 petitions: []
+            }
+        },
+
+        created() {
+            this.getAllPetitions({});
+        },
+
+        methods: {
+            getAllPetitions (params) {
+                Api.getPetitions(params)
+                .then(response => {
+                    this.$data.petitions = response.data
+                })
             }
         }
     }

@@ -8,11 +8,6 @@
             <div class="card-text" id="category">Category: {{category}}</div>
             <div class="card-text" id="author">Authored by: {{author}}</div>
         </div>
-        <div class="card-body bg-light">
-            <div class="card-text" id="description">
-                {{description}}
-            </div>
-        </div>
         <img class="card-img-top" :src="image">
         <div class="card-footer text-light">
             <p class="card-text d-inline"  id="sigantures">Signed by {{signatures}} people</p>
@@ -25,7 +20,7 @@
 <script>
     export default {
         name: "PetitionCard",
-        props: ["title", "category", "author", "signatures", "image", "description"]
+        props: ["id", "title", "category", "author", "signatures", "image"]
     }
 </script>
 

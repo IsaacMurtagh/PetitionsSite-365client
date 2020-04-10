@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Login from "@/views/Login";
 import Home from "@/views/Home";
 import Search from "@/views/Search";
+import Petition from "@/views/Petition";
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,10 @@ const routes = [
     {
         path: '/search',
         component: Search,
+    },
+    {
+        path: '/petition/:id',
+        component: Petition,
     },
 
 ]
