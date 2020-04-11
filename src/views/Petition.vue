@@ -1,7 +1,8 @@
 <template>
     <body class="container">
     <hr>
-    <petition-full-card v-bind:title="petition.title" :category="petition.category"></petition-full-card>
+    <petition-full-card v-if="render" v-bind:petition="petition"></petition-full-card>
+    <h2 v-if="!render">Not found</h2>
     </body>
 </template>
 
@@ -18,11 +19,22 @@
                 petition: {}
             }
         },
+        computed: {
+            render: function () {
+                if (this.$data.petition.petitionId != undefined) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
 
         created() {
             Api.getPetitionsById(this.$data.petitionId)
                 .then(response => {
-                    this.$data.petition = response.data
+                    if(response){
+                        this.$data.petition = response.data
+                    }
                 })
         }
     }

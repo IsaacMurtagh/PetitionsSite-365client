@@ -2,7 +2,9 @@
     <body class="card bg-info" style="width: 36rem">
 
         <div class="card-header">
-            <div class="card-title text-center text-light font-weight-bold">{{title}}</div>
+            <div class="card-title text-center text-light font-weight-bold">
+                <router-link v-bind:to="petitionUrl" class="text-decoration-none text-light">{{title}}</router-link>
+            </div>
         </div>
         <div class="card-body bg-light">
             <div class="card-text" id="category">Category: {{category}}</div>
@@ -20,8 +22,16 @@
 <script>
     export default {
         name: "PetitionCard",
-        props: ["id", "title", "category", "author", "signatures", "image"]
+        props: ["id", "title", "category", "author", "signatures", "image"],
+
+        data() {
+            return {
+                petitionUrl: "/petition/" + this.id
+            }
+        }
     }
+
+
 </script>
 
 <style scoped>
