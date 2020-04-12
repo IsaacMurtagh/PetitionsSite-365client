@@ -5,6 +5,7 @@ import Login from "@/views/Login";
 import Home from "@/views/Home";
 import Search from "@/views/Search";
 import Petition from "@/views/Petition";
+import Register from "@/views/Register";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,10 @@ const routes = [
     {
         path: '/petition/:id',
         component: Petition,
+    },
+    {
+        path: '/register',
+        component: Register,
     },
 
 ]

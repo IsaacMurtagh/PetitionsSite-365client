@@ -44,6 +44,18 @@ export default {
     background-color: #0D1866; /* Modern Browsers */
   }
 
+  .banner {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /*border: solid black 1px;*/
+  }
+
+  .text-hero {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+
 
 
 </style>

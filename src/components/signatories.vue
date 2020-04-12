@@ -1,11 +1,15 @@
 <template>
     <body class="card bg-lightblue" style="width: auto">
         <div class="card-body">
-            <div class="card-text">
-                <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">
-                <img v-else class="profile-image" src="../assets/defaultprofile.png">
-                <h6>Signed by: {{signedUser.name}}{{userDetails}}</h6>
-                {{timeAgo}}
+            <div class="card-text d-flex">
+                <div>
+                    <img v-if="userImage != ''" class="profile-image " v-bind:src="userImage">
+                    <img v-else class="profile-image" src="../assets/defaultprofile.png">
+                </div>
+                <div>
+                    <h6>Signed by: {{signedUser.name}}{{userDetails}}</h6>
+                    {{timeAgo}}
+                </div>
             </div>
         </div>
     </body>
@@ -58,8 +62,10 @@
     }
 
     .profile-image {
-        max-width: 40px;
-        max-height: 40px;
+        width: 65px;
+        height: 65px;
         margin-right: 10px;
+        padding: 2px;
+        border: solid #0D1866 1px;
     }
 </style>

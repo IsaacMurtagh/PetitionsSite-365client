@@ -9,11 +9,22 @@
 
         <div class="card-body bg-light">
             <h4 class="card-text" id="category">{{petition.category}}</h4>
-            <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">
-            <img v-else class="profile-image" src="../assets/defaultprofile.png">
-            <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>
-            <span class="d-block small">{{openDate}}</span>
-            <span class="d-block small">{{closeDate}}</span>
+            <div class="d-flex">
+                <div>
+                    <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">
+                    <img v-else class="profile-image" src="../assets/defaultprofile.png">
+                </div>
+                <div class="c">
+                    <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>
+                    <span class="d-block small">{{openDate}}</span>
+                    <span class="d-block small">{{closeDate}}</span>
+                </div>
+            </div>
+<!--            <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">-->
+<!--            <img v-else class="profile-image" src="../assets/defaultprofile.png">-->
+<!--            <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>-->
+<!--            <span class="d-block small">{{openDate}}</span>-->
+<!--            <span class="d-block small">{{closeDate}}</span>-->
         </div>
 
         <div class="card-body bg-lightblue">
@@ -77,12 +88,12 @@
 
     .petition-image {
         max-width: 100%;
-        max-height: 750px;
+        max-height: 600px;
     }
 
     .profile-image {
-        max-width: 60px;
-        max-height: 60px;
+        max-width: 80px;
+        max-height: 80px;
         margin-right: 10px;
     }
 
