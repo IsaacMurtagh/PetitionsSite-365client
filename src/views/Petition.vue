@@ -2,15 +2,15 @@
     <body class="container">
     <hr>
     <div class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-7 col-xl-8">
             <petition-full-card v-if="render" v-bind:petition="petition" :petition-image="petitionImage"
                                 :user-image="userImage">
             </petition-full-card>
         </div>
-        <div class="col-8 col-lg-4">
-            <div class="row">
+        <div class="col-12 col-lg-5 col-xl-4">
+            <div v-for="signature in signatures" v-bind:key="signature.signatoryId" class="row">
                 <div class="col-12">
-                    <signatories></signatories>
+                    <signatories v-bind:signedUser="signature"></signatories>
                 </div>
             </div>
         </div>
@@ -32,7 +32,8 @@
                 petitionId: this.$route.params.id,
                 petition: {},
                 petitionImage: "",
-                userImage: ""
+                userImage: "",
+                signatures: []
             }
         },
         computed: {
@@ -56,7 +57,7 @@
                 } else {
                     return ""
                 }
-            }
+            },
         },
 
         created() {
@@ -78,6 +79,13 @@
                 .then(response => {
                     if(response){
                         this.$data.petitionImage = Images.dataUrl(response.headers["content-type"], response.data);
+                    }
+                }),
+
+            Api.getSignatures(this.$data.petitionId)
+                .then(response => {
+                    if(response) {
+                        this.$data.signatures = response.data;
                     }
                 })
         }

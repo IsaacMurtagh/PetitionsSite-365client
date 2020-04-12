@@ -37,7 +37,14 @@ export default {
         .then(response => {
             return response
         }).catch(err => {
+            console.log(err.response)
+        }),
+
+    getSignatures: (id) => instance.get("petitions/" + id + "/signatures")
+        .then(response => {
+            return response
+        }).catch(err => {
             console.log(err)
-        })
+        }),
 
 }
