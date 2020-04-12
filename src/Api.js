@@ -24,6 +24,20 @@ export default {
             return response
         }).catch((err) => {
             console.log(err)
+        }),
+
+    getPetitionImage: (id) => instance.get("petitions/" + id + "/photo", {responseType: "arraybuffer"})
+        .then(response => {
+            return response
+        }).catch(err => {
+            console.log(err)
+        }),
+
+    getUserImage: (id) => instance.get("users/" + id + "/photo", {responseType: "arraybuffer"})
+        .then(response => {
+            return response
+        }).catch(err => {
+            console.log(err)
         })
 
 }

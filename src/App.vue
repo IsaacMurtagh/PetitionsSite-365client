@@ -33,6 +33,10 @@ export default {
     color: #0D1866;
   }
 
+  .bg-lightblue {
+    background: #D1FFE7;
+  }
+
   hr {
     height: 1px;
     /* Set the hr color */

@@ -4,10 +4,12 @@
     <div class="card-header">
         <h1 class="card-title text-center text-light font-weight-bold">{{petition.title}}</h1>
     </div>
-    <img class="card-img-top" :src="image">
+    <img class="card-img-top petition-image" v-bind:src="petitionImage">
     <div class="card-body bg-light">
         <h4 class="card-text" id="category">{{petition.category}}</h4>
-        <h5 class="card-text text-darkblue" id="author">By {{petition.authorName}}, {{petition.authorCity}}, {{petition.authorCountry}}</h5>
+        <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">
+        <img v-else class="profile-image" src="../assets/defaultprofile.png">
+        <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>
     </div>
     <div class="card-body bg-lightblue">
         <div class="card-text" id="description">{{petition.description}}</div>
@@ -23,7 +25,7 @@
 <script>
     export default {
         name: "PetitionFullCard",
-        props: [ "petition" ],
+        props: [ "petition", "petitionImage", "userImage" ],
 
         data() {
             return {
@@ -32,7 +34,14 @@
                 "category": this.petition.category,
                 "description": this.petition.description,
                 "signatures": this.petition.signatureCount,
+                "country": this.petition.authorCountry,
+                "city": this.petition.authorCity,
+            }
+        },
 
+        computed: {
+            userDetails: function () {
+                return this.$parent.calculateDetails(this.city, this.country)
             }
         }
     }
@@ -40,8 +49,15 @@
 
 <style scoped>
 
-    .bg-lightblue {
-        background: #D1FFE7;
+    .petition-image {
+        max-width: 100%;
+        max-height: 750px;
+    }
+
+    .profile-image {
+        max-width: 60px;
+        max-height: 60px;
+        margin-right: 10px;
     }
 
 </style>
