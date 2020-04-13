@@ -22,7 +22,7 @@
     import Api from "@/Api";
     import PetitionFullCard from "@/components/PetitionFullCard";
     import Images from "@/utils/Images";
-    import Signatories from "@/components/signatories";
+    import Signatories from "@/components/Signatories";
 
     export default {
         name: "Petition",

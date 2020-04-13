@@ -47,4 +47,13 @@ export default {
             console.log(err)
         }),
 
+    // User
+
+    createAccount: (body) => instance.post("users/register", body)
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response;
+        })
+
 }
