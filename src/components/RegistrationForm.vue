@@ -52,7 +52,15 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-globe"></i></span>
                     </div>
-                    <input type="text" placeholder="Country" id="country" maxlength="255" class="form-group form-control" v-model.lazy="country">
+                    <input type="text" placeholder="Country" id="country" maxlength="255" class="form-group form-control" v-model="country">
+                </div>
+
+                <!--Upload File-->
+                <div class="form-group input-group">
+                    <div class="custom-file">
+                        <input type="file" id="profileImage" class="custom-file-input" v-on:change="uploadFile">
+                        <label class="custom-file-label" for="profileImage">{{image.imageName}}</label>
+                    </div>
                 </div>
 
                 <!--Create account button-->
@@ -79,7 +87,12 @@
                 "confirmPassword": "",
                 "city": null,
                 "country": null,
-                "alertMessage": ""
+                "alertMessage": "",
+                "imageSet": false,
+                "image": {
+                    "imageName": "Upload profile image",
+                    "type": null
+                }
             }
         },
 
@@ -106,6 +119,10 @@
                 this.checkConfirmPasswordInput();
             },
 
+            imageSet: function () {
+                this.checkProfileUpload();
+            }
+
         },
 
         methods: {
@@ -118,6 +135,12 @@
             unsuccessfulInput(elementId) {
                 const element = document.getElementById(elementId);
                 element.classList.add("is-invalid");
+                element.classList.remove("is-valid");
+            },
+
+            resetInput(elementId) {
+                const element = document.getElementById(elementId);
+                element.classList.remove("is-invalid");
                 element.classList.remove("is-valid");
             },
 
@@ -170,6 +193,33 @@
                 }
             },
 
+            checkProfileUpload() {
+                if (!this.imageSet) {
+                    this.resetInput("profileImage")
+                    return true
+                } else if (this.image.type !== "image/png") {
+                    this.unsuccessfulInput("profileImage");
+                    return false
+                } else {
+                    this.successfulInput("profileImage");
+                    return true
+                }
+            },
+
+            uploadFile(e) {
+                console.log(e.target.files)
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0]
+                    this.imageSet = true;
+                    this.image.imageName = file.name;
+                    this.image.type = file.type
+
+                } else {
+                    this.imageSet = false;
+                    this.image.imageName = "Upload profile image"
+                }
+            },
+
             composeRegistrationBody() {
                 return {
                     "name": this.name,
@@ -194,7 +244,7 @@
                 } else { // Send an api request to create account
                     const requestBody = this.composeRegistrationBody();
                     let accountCreated = false;
-                    
+
                     Api.createAccount(requestBody)
                         .then(response => {
                             if (response.status === 201) { // Account was created
@@ -219,7 +269,7 @@
 <style scoped>
 
     .card-body {
-        width: 400px;
+        width: auto;
     }
 
 </style>
