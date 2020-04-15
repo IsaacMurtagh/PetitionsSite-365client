@@ -4,11 +4,11 @@
             <div class="col-8 col-lg-10"></div>
 <!--            If not logged in-->
                 <div class="col-2 col-lg-1">
-                    <router-link v-if="this.$parent.$data.loggedIn" to="/login" class="btn btn-outline-light">Login</router-link>
+                    <router-link v-if="!this.loggedIn" to="/login" class="btn btn-outline-light">Login</router-link>
                     <router-link v-else to="/profile" class="btn btn-outline-light">Profile</router-link>
                 </div>
                 <div class="col-2 col-md-1">
-                    <router-link v-if="this.$parent.$data.loggedIn" to="/register" class="btn btn-outline-light">Register</router-link>
+                    <router-link v-if="!this.loggedIn" to="/register" class="btn btn-outline-light">Register</router-link>
                     <router-link v-else to="/logout" class="btn btn-outline-light">Logout</router-link>
                 </div>
 <!--            If logged in-->
@@ -35,6 +35,12 @@
 <script>
     export default {
         name: "NavigationBar",
+
+        computed: {
+            loggedIn: function () {
+                return this.$parent.$data.profile != undefined;
+            }
+        }
 
     }
 </script>

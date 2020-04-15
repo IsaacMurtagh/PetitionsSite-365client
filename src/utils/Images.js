@@ -5,13 +5,13 @@ export default {
         return 'data:' + contentType + ';base64,' + data
     },
 
-    blobToData: function (blob) {
-        const reader = new FileReader();
+    convertBlobToBase64: blob => new Promise((resolve, reject) => {
+        const reader = new FileReader;
+        reader.onerror = reject;
+        reader.onload = () => {
+            resolve(reader.result);
+        };
         reader.readAsDataURL(blob);
-        reader.onloadend = function () {
-            const data = reader.result.split(',')[1];
-            return data;
-        }
-    }
+    })
 
 }

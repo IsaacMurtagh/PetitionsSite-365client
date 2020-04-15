@@ -79,6 +79,7 @@
 
 <script>
     import Api from "@/Api";
+    import Images from "@/utils/Images";
 
     export default {
         name: "RegistrationForm",
@@ -249,6 +250,7 @@
 
             submitRegistration(e) {
                 e.preventDefault();
+                let redirect = false;
 
                 let completedForm = true;
                 if (!this.checkEmailInput()) completedForm = false;
@@ -265,11 +267,13 @@
                     Api.createAccount(this.composeRegistrationBody()) // Create Account
                         .then(response => {
                             if (response.status === 201) { // Account was created
-                                return response.data.userId
+                                this.alertMessage = "";
+                                redirect = true; // redirect to home page
+                                return response.data.userId;
                             } else if (response.status === 400) { // Bad request error
-                                this.alertMessage = "Bad Request: Email may already be in use"
+                                this.alertMessage = "Bad Request: Email may already be in use";
                             } else {
-                                this.alertMessage = "Internal Server Error: Please try again"
+                                this.alertMessage = "Internal Server Error: Please try again";
                             }
                     }).then(userId => { // login into that account
                         if (userId) {
@@ -285,19 +289,19 @@
                         }
                     }).then(userId => { // Upload profile image
                         if (userId && this.imageSet) {
-                            const reader = new FileReader();
-                            reader.onload = function () {
-                                const data = reader.result.split(',')[1]
-                                return data, userId
-                            };
-
-                            reader.readAsDataURL(this.image.file);
-                        }
-                    }).then((data, userId) => {
-                        Api.uploadProfileImage(userId, data, this.image.type)
-                            .then(response => {
-                                console.log(response);
+                            Images.convertBlobToBase64(this.image.file)
+                            .then(data => {
+                                Api.uploadProfileImage(userId, data, this.image.type)
+                                .then(response => {
+                                    console.log(response);
+                                })
                             })
+                        }
+                    }).then(() => { // Redirect to home
+                        if (redirect) {
+                            this.$router.push("/");
+                            window.location.reload()
+                        }
                     })
                 }
 

@@ -7,6 +7,9 @@ const SERVER_URL = 'http://localhost:8080/api/v1';
 const instance = axios.create({
     baseURL: SERVER_URL,
     timeout: 1000,
+    headers: {
+        'X-Authorization': localStorage.getItem('token')
+    }
 });
 
 export default {
@@ -58,7 +61,8 @@ export default {
 
     login: (body) => instance.post("users/login", body)
         .then(response => {
-            localStorage.setItem("token", response.data.token)
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user_id", response.data.userId);
             return response;
         }).catch(err => {
             return err.response;
@@ -68,9 +72,15 @@ export default {
         {
             headers: {
                 'Content-Type': imageType,
-                'X-Authorization': localStorage.getItem('token')
             }
         })
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response;
+        }),
+
+    getProfileInformation: (id) => instance.get("users/" + id)
         .then(response => {
             return response;
         }).catch(err => {
