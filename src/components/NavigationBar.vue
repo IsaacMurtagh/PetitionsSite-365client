@@ -1,17 +1,21 @@
 <template>
     <body class="container bg-info">
-        <div class="row" id="top-nav">
-            <div class="col-8 col-lg-10"></div>
-<!--            If not logged in-->
-                <div class="col-2 col-lg-1">
-                    <router-link v-if="!this.loggedIn" to="/login" class="btn btn-outline-light">Login</router-link>
-                    <router-link v-else to="/profile" class="btn btn-outline-light">Profile</router-link>
-                </div>
-                <div class="col-2 col-md-1">
-                    <router-link v-if="!this.loggedIn" to="/register" class="btn btn-outline-light">Register</router-link>
-                    <router-link v-else to="/logout" class="btn btn-outline-light">Logout</router-link>
-                </div>
-<!--            If logged in-->
+        <div class="flex-container" id="top-nav">
+
+            <div class="flex-item">
+                <router-link v-if="this.loggedIn" to="/create" class="btn btn-outline-light">Create Petition</router-link>
+            </div>
+
+            <div class="flex-item">
+                <router-link v-if="!this.loggedIn" to="/login" class="btn btn-outline-light">Login</router-link>
+                <router-link v-else to="/profile" class="btn btn-outline-light">Profile</router-link>
+            </div>
+
+            <div class="flex-item">
+                <router-link v-if="!this.loggedIn" to="/register" class="btn btn-outline-light">Register</router-link>
+                <logout-button v-else></logout-button>
+            </div>
+
         </div>
         <div class="row" id="bottom-nav">
             <div class="col-12 col-md-4 col-lg-3">
@@ -33,8 +37,10 @@
 </template>
 
 <script>
+    import LogoutButton from "@/components/LogoutButton";
     export default {
         name: "NavigationBar",
+        components: {LogoutButton},
 
         computed: {
             loggedIn: function () {
@@ -63,6 +69,16 @@
 
     input {
         font-size: 20px;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .flex-item {
+        margin-left: 10px;
     }
 
 

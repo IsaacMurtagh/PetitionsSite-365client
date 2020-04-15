@@ -1,5 +1,5 @@
 <template>
-    <body class="card" @submit="submitRegistration">
+    <body class="card bg-lightblue" @submit="submitRegistration">
     <div v-if="badForm" class="alert alert-danger m-3">
         {{alertMessage}}
     </div>

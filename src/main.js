@@ -6,17 +6,17 @@ import Home from "@/views/Home";
 import Search from "@/views/Search";
 import Petition from "@/views/Petition";
 import Register from "@/views/Register";
-
+import CreatePetition from "@/views/CreatePetition";
 Vue.use(VueRouter);
 
 const routes = [
     {
-    path: '/',
-    component: Home,
+        path: '/',
+        component: Home,
     },
     {
-    path: '/login',
-    component: Login,
+        path: '/login',
+        component: Login,
     },
     {
         path: '/search',
@@ -30,16 +30,20 @@ const routes = [
         path: '/register',
         component: Register,
     },
+    {
+        path: '/create',
+        component: CreatePetition,
+    },
 
 ]
 
 const router = new VueRouter({
-      routes,
-      mode: 'history'
+        routes,
+        mode: 'history'
     }
 )
 
 new Vue({
-  render: h => h(App),
-  router
+    render: h => h(App),
+    router
 }).$mount('#app')
