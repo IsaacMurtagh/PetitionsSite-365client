@@ -54,6 +54,27 @@ export default {
             return response;
         }).catch(err => {
             return err.response;
+        }),
+
+    login: (body) => instance.post("users/login", body)
+        .then(response => {
+            localStorage.setItem("token", response.data.token)
+            return response;
+        }).catch(err => {
+            return err.response;
+        }),
+
+    uploadProfileImage: (id, rawImage, imageType) => instance.put("users/" + id + "/photo", rawImage,
+        {
+            headers: {
+                'Content-Type': imageType,
+                'X-Authorization': localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response;
         })
 
 }

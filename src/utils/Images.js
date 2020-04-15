@@ -5,9 +5,13 @@ export default {
         return 'data:' + contentType + ';base64,' + data
     },
 
-    // fileToArray: function (file) {
-    //     const reader = new FileReader();
-    //     reader.onload = processFile
-    // }
+    blobToData: function (blob) {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+            const data = reader.result.split(',')[1];
+            return data;
+        }
+    }
 
 }

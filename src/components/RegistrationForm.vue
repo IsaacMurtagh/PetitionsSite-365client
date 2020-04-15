@@ -63,6 +63,10 @@
                     </div>
                 </div>
 
+                <div class="card-img">
+                    <img v-if="image.url" v-bind:src="image.url">
+                </div>
+
                 <!--Create account button-->
                 <div class="form-group ">
                     <button type="submit" class="btn btn-info btn-block">Create Account</button>
@@ -90,8 +94,10 @@
                 "alertMessage": "",
                 "imageSet": false,
                 "image": {
+                    "file": null,
                     "imageName": "Upload profile image",
-                    "type": null
+                    "type": null,
+                    "url": false
                 }
             }
         },
@@ -145,7 +151,6 @@
             },
 
             checkEmailInput() {
-                // Match regex
                 const email = this.$data.email;
                 if(!/\s/.test(email) && /[\w]+@[\w]+/.test(email)) {
                     this.successfulInput("email")
@@ -157,7 +162,6 @@
             },
 
             checkNameInput() {
-                // Match regex
                 const name = this.$data.name;
                 if(name.length >= 1) {
                     this.successfulInput("name")
@@ -169,7 +173,6 @@
             },
 
             checkPasswordInput() {
-                // Match regex
                 const password = this.$data.password;
                 if(password.length >= 1) {
                     this.successfulInput("password")
@@ -181,7 +184,6 @@
             },
 
             checkConfirmPasswordInput() {
-                // Match regex
                 const password = this.$data.password;
                 const confirmPassword = this.$data.confirmPassword;
                 if(confirmPassword.length >= 1 && confirmPassword === password) {
@@ -196,28 +198,36 @@
             checkProfileUpload() {
                 if (!this.imageSet) {
                     this.resetInput("profileImage")
+                    this.image.url = null;
                     return true
                 } else if (this.image.type !== "image/png") {
                     this.unsuccessfulInput("profileImage");
+                    this.image.url = null;
                     return false
                 } else {
                     this.successfulInput("profileImage");
+                    this.image.url = URL.createObjectURL(this.image.file);
                     return true
                 }
             },
 
             uploadFile(e) {
-                console.log(e.target.files)
                 if (e.target.files.length > 0) {
                     const file = e.target.files[0]
                     this.imageSet = true;
+                    this.image.file = file;
                     this.image.imageName = file.name;
                     this.image.type = file.type
 
-                } else {
+                } else { // Reset values
                     this.imageSet = false;
+                    this.image.file = null;
+                    this.image.url = null;
+                    this.image.type = null;
                     this.image.imageName = "Upload profile image"
                 }
+
+                this.checkProfileUpload();
             },
 
             composeRegistrationBody() {
@@ -230,10 +240,17 @@
                 }
             },
 
+            composeLoginBody() {
+                return {
+                    "email": this.email,
+                    "password": this.password
+                }
+            },
+
             submitRegistration(e) {
                 e.preventDefault();
 
-                let completedForm = true
+                let completedForm = true;
                 if (!this.checkEmailInput()) completedForm = false;
                 if (!this.checkNameInput()) completedForm = false;
                 if (!this.checkPasswordInput()) completedForm = false;
@@ -241,23 +258,46 @@
 
                 if (!completedForm) {
                     this.alertMessage = "One or more of your input fields are not as expected"
-                } else { // Send an api request to create account
-                    const requestBody = this.composeRegistrationBody();
-                    let accountCreated = false;
-
-                    Api.createAccount(requestBody)
+                } else if(!this.checkProfileUpload()) {
+                    this.alertMessage = "The profile image uploaded must be of type .png .jpeg .jpg or .gif. " +
+                        "You may either not upload an image or choose a new one"
+                } else {
+                    Api.createAccount(this.composeRegistrationBody()) // Create Account
                         .then(response => {
                             if (response.status === 201) { // Account was created
-                                accountCreated = true
+                                return response.data.userId
                             } else if (response.status === 400) { // Bad request error
                                 this.alertMessage = "Bad Request: Email may already be in use"
                             } else {
                                 this.alertMessage = "Internal Server Error: Please try again"
                             }
-                        }).then(() => {
-                            if (accountCreated) {
-                                this.alertMessage = "Success!"
-                            }
+                    }).then(userId => { // login into that account
+                        if (userId) {
+                            return Api.login(this.composeLoginBody())
+                                .then(response => {
+                                    if (response.status === 200) {
+                                        return response.data.userId;
+                                    } else {
+                                        // Login failed, but account created, they should be redirected to log in
+                                        // Profile image won't be able to be uploaded
+                                    }
+                                })
+                        }
+                    }).then(userId => { // Upload profile image
+                        if (userId && this.imageSet) {
+                            const reader = new FileReader();
+                            reader.onload = function () {
+                                const data = reader.result.split(',')[1]
+                                return data, userId
+                            };
+
+                            reader.readAsDataURL(this.image.file);
+                        }
+                    }).then((data, userId) => {
+                        Api.uploadProfileImage(userId, data, this.image.type)
+                            .then(response => {
+                                console.log(response);
+                            })
                     })
                 }
 
@@ -269,7 +309,17 @@
 <style scoped>
 
     .card-body {
-        width: auto;
+        width: 80%;
     }
+
+    img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        margin-bottom: 10px;
+        padding: 2px;
+        border: solid #0D1866 2px;
+    }
+
 
 </style>
