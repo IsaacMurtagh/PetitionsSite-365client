@@ -20,11 +20,6 @@
                     <span class="d-block small">{{closeDate}}</span>
                 </div>
             </div>
-<!--            <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">-->
-<!--            <img v-else class="profile-image" src="../assets/defaultprofile.png">-->
-<!--            <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>-->
-<!--            <span class="d-block small">{{openDate}}</span>-->
-<!--            <span class="d-block small">{{closeDate}}</span>-->
         </div>
 
         <div class="card-body bg-lightblue">

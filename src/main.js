@@ -9,29 +9,43 @@ import Register from "@/views/Register";
 import CreatePetition from "@/views/CreatePetition";
 Vue.use(VueRouter);
 
+
 const routes = [
     {
         path: '/',
+        name: "home",
         component: Home,
     },
     {
         path: '/login',
+        name: "login",
         component: Login,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem("token") && localStorage.getItem("user_id")) {
+                next({name: "home"})
+            } else {
+                next()
+            }
+        }
     },
     {
         path: '/search',
+        name: "search",
         component: Search,
     },
     {
         path: '/petition/:id',
+        name: "petition",
         component: Petition,
     },
     {
         path: '/register',
+        name: "register",
         component: Register,
     },
     {
         path: '/create',
+        name: "create",
         component: CreatePetition,
     },
 

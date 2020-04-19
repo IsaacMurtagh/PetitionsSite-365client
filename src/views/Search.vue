@@ -1,15 +1,14 @@
 <template>
     <body class="container">
     <hr>
-    <button v-on:click="getAllPetitions">click</button>
         <div class="row">
-            <div class="col-1"></div>
-<!--            Left Toolbar-->
-            <div class="col col-12 col-md-2">
-                {{petitions}}
+    <!--            Left Toolbar-->
+            <div class="col col-12 col-md-3">
+                <advanced-search-bar></advanced-search-bar>
             </div>
-<!--            Petition cards-->
-            <div class="col col-12 col-md-8">
+
+    <!--            Petition cards-->
+            <div class="col col-12 col-md-7">
                 <div class="row justify-content-center">
                     <petition-card v-for="petition in petitions" :key="petition.petitionId" :author="petition.authorName"
                                    :title="petition.title" :category="petition.category" :signatures="petition.signatureCount"
@@ -18,7 +17,6 @@
                     </petition-card>
                 </div>
             </div>
-            <div class="col-1"></div>
         </div>
     </body>
 </template>
@@ -26,19 +24,32 @@
 <script>
     import PetitionCard from "@/components/PetitionBasicCard";
     import Api from "@/Api";
+    import AdvancedSearchBar from "@/components/AdvancedSearchBar";
 
     export default {
         name: "Search",
-        components: {PetitionCard},
+        components: {AdvancedSearchBar, PetitionCard},
 
         data() {
             return {
-                petitions: []
+                petitions: [],
+            }
+        },
+
+        computed: {
+            query: function() {
+                return this.$route.query
+            }
+        },
+
+        watch: {
+            query: function() {
+                this.getAllPetitions(this.query);
             }
         },
 
         created() {
-            this.getAllPetitions({});
+            this.getAllPetitions(this.$route.query);
         },
 
         methods: {
@@ -54,9 +65,6 @@
 
 <style scoped>
 
-    .col {
-        border: solid black 1px;
-    }
 
 
 </style>

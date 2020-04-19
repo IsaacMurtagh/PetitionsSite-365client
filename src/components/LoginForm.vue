@@ -11,7 +11,7 @@
                 <!--Email-->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <span class="input-group-text"><em class="fa fa-envelope"></em></span>
                     </div>
                     <input type="email" placeholder="Email" id="email" maxlength="255" class="form-group form-control" v-model.lazy="email">
                 </div>
@@ -19,7 +19,7 @@
                 <!--Password-->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                        <span class="input-group-text"><em class="fa fa-key"></em></span>
                     </div>
                     <input type="password" placeholder="Password" id="password" maxlength="255" class="form-group form-control" v-model.lazy="password">
                 </div>
@@ -81,8 +81,8 @@
                 .then(response => {
                     if (response.status === 200) {
                         this.alertMessage = "";
-                        this.$router.push("/")
-                        window.location.reload()
+                        this.$router.push("/");
+                        window.location.reload();
                     } else if (response.status === 400) {
                         this.alertMessage = "Incorrect email or password"
                     } else {

@@ -38,12 +38,13 @@
                     .then(response => {
                         if (response.status == 200 && response.data.email) {
                             this.profile = response.data;
-                        } else { // not a user
+                        } else { // not logged in
                             this.profile = null;
                             this.clearLocalStorage();
                         }
                     })
             } else {
+                this.profile = null;
                 this.clearLocalStorage();
             }
         },

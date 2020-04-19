@@ -40,9 +40,8 @@
             render: function () {
                 if (this.$data.petition.petitionId != undefined) {
                     return true;
-                } else {
-                    return false;
                 }
+                return false;
             }
         },
 
@@ -67,27 +66,27 @@
                         this.$data.petition = response.data
 
                         Api.getUserImage(this.$data.petition.authorId)
-                            .then(response => {
-                                if (response) {
-                                    this.$data.userImage = Images.dataUrl(response.headers["content-type"], response.data);
+                            .then(imageResponse => {
+                                if (imageResponse) {
+                                    this.$data.userImage = Images.dataUrl(response.headers["content-type"], imageResponse.data);
                                 }
                             })
                     }
-                }),
+                });
 
             Api.getPetitionImage(this.$data.petitionId)
                 .then(response => {
                     if(response){
                         this.$data.petitionImage = Images.dataUrl(response.headers["content-type"], response.data);
                     }
-                }),
+                });
 
             Api.getSignatures(this.$data.petitionId)
                 .then(response => {
                     if(response) {
                         this.$data.signatures = response.data;
                     }
-                })
+                });
         }
     }
 </script>
