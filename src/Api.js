@@ -22,28 +22,28 @@ export default {
     }).then(response => {
         return response
     }).catch(err => {
-        console.log(err)
+        return err.response
     }),
 
     getPetitionsById: (id) => instance.get("/petitions/" + id)
         .then(response => {
             return response
         }).catch((err) => {
-            console.log(err)
+            return err.response
         }),
 
     getPetitionImage: (id) => instance.get("petitions/" + id + "/photo", {responseType: "arraybuffer"})
         .then(response => {
             return response
         }).catch(err => {
-            console.log(err)
+            return err.response
         }),
 
     getUserImage: (id) => instance.get("users/" + id + "/photo", {responseType: "arraybuffer"})
         .then(response => {
             return response
         }).catch(err => {
-            console.log(err.response)
+            return err.response
         }),
 
     getSignatures: (id) => instance.get("petitions/" + id + "/signatures")
@@ -51,6 +51,13 @@ export default {
             return response
         }).catch(err => {
             console.log(err)
+        }),
+
+    getCategories: () => instance.get("petitions/categories")
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response;
         }),
 
     // User

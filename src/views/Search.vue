@@ -4,7 +4,7 @@
         <div class="row">
     <!--            Left Toolbar-->
             <div class="col col-12 col-md-3">
-                <advanced-search-bar></advanced-search-bar>
+                <advanced-search-bar v-bind:categories="categories"></advanced-search-bar>
             </div>
 
     <!--            Petition cards-->
@@ -33,6 +33,7 @@
         data() {
             return {
                 petitions: [],
+                categories: []
             }
         },
 
@@ -50,13 +51,25 @@
 
         created() {
             this.getAllPetitions(this.$route.query);
+            this.getAllCategories();
         },
 
         methods: {
             getAllPetitions (params) {
                 Api.getPetitions(params)
                 .then(response => {
-                    this.$data.petitions = response.data
+                    if (response.status == 200) {
+                        this.petitions = response.data
+                    }
+                })
+            },
+
+            getAllCategories() {
+                Api.getCategories()
+                .then(response => {
+                    if (response.status == 200) {
+                        this.$data.categories = response.data
+                    }
                 })
             }
         }
