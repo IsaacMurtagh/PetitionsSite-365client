@@ -232,13 +232,14 @@
             },
 
             composeRegistrationBody() {
-                return {
+                let body = {
                     "name": this.name,
                     "email": this.email,
                     "password": this.password,
-                    "city": this.city,
-                    "country": this.country
                 }
+                if (this.city) { body.city = this.city }
+                if (this.country) { body.city = this.country }
+                return body
             },
 
             composeLoginBody() {
@@ -300,7 +301,6 @@
                     }).then(() => { // Redirect to home
                         if (redirect) {
                             this.$router.push("/");
-                            window.location.reload()
                         }
                     })
                 }

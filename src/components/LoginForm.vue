@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    import Api from "@/Api";
+    import Api from "../Api.js";
 
     export default {
         name: "LoginForm",
@@ -82,7 +82,6 @@
                     if (response.status === 200) {
                         this.alertMessage = "";
                         this.$router.push("/");
-                        window.location.reload();
                     } else if (response.status === 400) {
                         this.alertMessage = "Incorrect email or password"
                     } else {

@@ -31,8 +31,8 @@
             return {
                 petitionId: this.$route.params.id,
                 petition: {},
-                petitionImage: "",
-                userImage: "",
+                petitionImage: null,
+                userImage: null,
                 signatures: []
             }
         },
@@ -62,12 +62,12 @@
         created() {
             Api.getPetitionsById(this.$data.petitionId)
                 .then(response => {
-                    if(response) {
+                    if(response.status === 200) {
                         this.$data.petition = response.data
 
                         Api.getUserImage(this.$data.petition.authorId)
                             .then(imageResponse => {
-                                if (imageResponse) {
+                                if (imageResponse.status === 200) {
                                     this.$data.userImage = Images.dataUrl(response.headers["content-type"], imageResponse.data);
                                 }
                             })
@@ -76,14 +76,14 @@
 
             Api.getPetitionImage(this.$data.petitionId)
                 .then(response => {
-                    if(response){
+                    if(response.status === 200){
                         this.$data.petitionImage = Images.dataUrl(response.headers["content-type"], response.data);
                     }
                 });
 
             Api.getSignatures(this.$data.petitionId)
                 .then(response => {
-                    if(response) {
+                    if(response.status === 200) {
                         this.$data.signatures = response.data;
                     }
                 });

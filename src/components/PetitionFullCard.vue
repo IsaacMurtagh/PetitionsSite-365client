@@ -4,14 +4,14 @@
         <div class="card-header">
             <h1 class="card-title text-center text-light font-weight-bold">{{petition.title}}</h1>
         </div>
-
         <img class="card-img-top petition-image" v-bind:src="petitionImage">
 
         <div class="card-body bg-light">
             <h4 class="card-text" id="category">{{petition.category}}</h4>
             <div class="d-flex">
                 <div>
-                    <img v-if="userImage != ''" class="profile-image" v-bind:src="userImage">
+                    {{userImage}}
+                    <img v-if="userImage" class="profile-image" v-bind:src="userImage">
                     <img v-else class="profile-image" src="../assets/defaultprofile.png">
                 </div>
                 <div class="c">

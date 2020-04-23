@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="card-text d-flex">
                 <div>
-                    <img v-if="userImage != ''" class="profile-image " v-bind:src="userImage">
+                    <img v-if="userImage" class="profile-image " v-bind:src="userImage">
                     <img v-else class="profile-image" src="../assets/defaultprofile.png">
                 </div>
                 <div>
@@ -47,7 +47,7 @@
         created() {
             Api.getUserImage(this.userId)
                 .then(response => {
-                    if (response) {
+                    if (response.status === 200) {
                         this.userImage = Images.dataUrl(response.headers["content-type"], response.data);
                     }
                 })

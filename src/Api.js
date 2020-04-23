@@ -8,7 +8,6 @@ const instance = axios.create({
     baseURL: SERVER_URL,
     timeout: 1000,
     headers: {
-        'X-Authorization': localStorage.getItem('token'),
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, ContentType, Accept",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE"
@@ -50,7 +49,7 @@ export default {
         .then(response => {
             return response
         }).catch(err => {
-            console.log(err)
+            return err.response
         }),
 
     getCategories: () => instance.get("petitions/categories")
@@ -73,6 +72,7 @@ export default {
         .then(response => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user_id", response.data.userId);
+            instance.defaults.headers.common['X-Authorization'] = response.data.token;
             return response;
         }).catch(err => {
             return err.response;

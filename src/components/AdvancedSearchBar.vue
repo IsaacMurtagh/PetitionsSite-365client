@@ -4,8 +4,8 @@
             <input class="form-control btn-outline-info" type="text" placeholder="Search" aria-label="Search" v-model="params.q">
         </div>
         <div class="col col-6 col-sm-4 col-md-12">
-            <select class="form-control" id="categories" v-model="params.categoryId">
-                <option value="" selected>Filter by Category</option>
+            <select class="form-control" id="selectCategory" v-on:click="setCategory">
+                <option value="" selected disabled>Filter by Category</option>
                 <option v-for="category in categories" v-bind:key="category.categoryId" :value="category.categoryId">{{category.name}}</option>
             </select>
         </div>
@@ -47,12 +47,14 @@
                 }
                 console.log(query)
                 return query
+            },
+
+            setCategory() {
+                const e = document.getElementById("selectCategory");
+                const value = e.options[e.selectedIndex].value;
+                this.params.categoryId = value;
             }
         },
-
-        updateCategory() {
-            console.log("hi")
-        }
     }
 </script>
 

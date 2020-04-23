@@ -32,26 +32,39 @@
             },
         },
 
-        created() {
-            if (localStorage.getItem("user_id") && localStorage.getItem("token")) {
-                Api.getProfileInformation(this.userId)
-                    .then(response => {
-                        if (response.status == 200 && response.data.email) {
-                            this.profile = response.data;
-                        } else { // not logged in
-                            this.profile = null;
-                            this.clearLocalStorage();
-                        }
-                    })
-            } else {
-                this.profile = null;
-                this.clearLocalStorage();
+        watch: {
+            $route: function (to, from) {
+                console.log(to, from)
+                if (!this.profile) {
+                    this.getUserDetails();
+                }
             }
+        },
+
+        created() {
+            this.getUserDetails();
         },
 
         methods: {
             clearLocalStorage() {
                 localStorage.clear();
+            },
+            getUserDetails() {
+                if (localStorage.getItem("user_id") && localStorage.getItem("token")) {
+                    Api.getProfileInformation(this.userId)
+                        .then(response => {
+                            if (response.status == 200 && response.data.email) {
+                                this.profile = response.data;
+                            } else { // not logged in
+                                this.profile = null;
+                                // this.clearLocalStorage();
+                            }
+                        })
+                } else {
+                    console.log("not logged in")
+                    this.profile = null;
+                    this.clearLocalStorage();
+                }
             }
         }
 
