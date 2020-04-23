@@ -33,8 +33,7 @@
         },
 
         watch: {
-            $route: function (to, from) {
-                console.log(to, from)
+            $route: function () {
                 if (!this.profile) {
                     this.getUserDetails();
                 }
