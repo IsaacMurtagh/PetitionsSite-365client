@@ -7,6 +7,7 @@ import Search from "@/views/Search";
 import Petition from "@/views/Petition";
 import Register from "@/views/Register";
 import CreatePetition from "@/views/CreatePetition";
+import Profile from "@/views/Profile";
 Vue.use(VueRouter);
 
 
@@ -48,6 +49,11 @@ const routes = [
         name: "create",
         component: CreatePetition,
     },
+    {
+        path: '/profile',
+        name: "create",
+        component: Profile,
+    }
 
 ]
 

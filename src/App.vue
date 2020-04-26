@@ -52,7 +52,7 @@
                 if (localStorage.getItem("user_id") && localStorage.getItem("token")) {
                     Api.getProfileInformation(this.userId)
                         .then(response => {
-                            if (response.status == 200 && response.data.email) {
+                            if (response.status === 200 && response.data.email) {
                                 this.profile = response.data;
                             } else { // not logged in
                                 this.profile = null;

@@ -13,7 +13,7 @@
                     <div class="card-text" id="author">Authored by: {{author}}</div>
                 </div>
                 <div class="col-4">
-                    <img v-if="heroImage" v-bind:src="heroImage">
+                    <img class="rounded" v-if="heroImage" v-bind:src="heroImage">
                 </div>
             </div>
         </div>

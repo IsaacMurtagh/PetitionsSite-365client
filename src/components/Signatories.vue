@@ -3,8 +3,8 @@
         <div class="card-body">
             <div class="card-text d-flex">
                 <div>
-                    <img v-if="userImage" class="profile-image " v-bind:src="userImage">
-                    <img v-else class="profile-image" src="../assets/defaultprofile.png">
+                    <img v-if="userImage" class="profile-image rounded-circle" v-bind:src="userImage">
+                    <img v-else class="profile-image rounded-circle" src="../assets/defaultprofile.png">
                 </div>
                 <div>
                     <h6>Signed by: {{signedUser.name}}{{userDetails}}</h6>
@@ -66,6 +66,5 @@
         height: 65px;
         margin-right: 10px;
         padding: 2px;
-        border: solid #0D1866 1px;
     }
 </style>
