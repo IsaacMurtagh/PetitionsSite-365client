@@ -2,11 +2,11 @@
     <body class="card bg-info" style="width: 36rem">
 
         <div class="card-header">
-            <div class="card-title text-center text-light font-weight-bold">
+            <div class="card-title text-center text-light h5">
                 <router-link v-bind:to="petitionUrl" class="text-decoration-none text-light">{{title}}</router-link>
             </div>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body bg-light ">
             <div class="row">
                 <div class="col-8">
                     <div class="card-text" id="category">Category: {{category}}</div>
@@ -65,4 +65,5 @@
         max-width: 100%;
         max-height: 120px;
     }
+
 </style>

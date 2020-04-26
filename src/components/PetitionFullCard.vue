@@ -10,7 +10,6 @@
             <h4 class="card-text" id="category">{{petition.category}}</h4>
             <div class="d-flex">
                 <div>
-                    {{userImage}}
                     <img v-if="userImage" class="profile-image" v-bind:src="userImage">
                     <img v-else class="profile-image" src="../assets/defaultprofile.png">
                 </div>
@@ -63,8 +62,6 @@
             },
 
             closeDate: function () {
-                console.log(moment.now())
-                console.log(Date.parse(this.petition.closingDate))
                 if (this.petition.closingDate) {
                     if (Date.parse(this.petition.closingDate) > moment.now()){ // Future tense
                         return "Closes on: " + moment(this.petition.closingDate).format('LLLL')

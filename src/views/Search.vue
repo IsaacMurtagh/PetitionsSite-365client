@@ -33,7 +33,8 @@
         data() {
             return {
                 petitions: [],
-                categories: []
+                categories: [],
+                numPetitions: null
             }
         },
 
@@ -45,11 +46,13 @@
 
         watch: {
             query: function() {
+                this.getNumPetitions(this.query);
                 this.getAllPetitions(this.query);
             }
         },
 
         created() {
+            this.getNumPetitions(this.$route.query);
             this.getAllPetitions(this.$route.query);
             this.getAllCategories();
         },
@@ -62,6 +65,20 @@
                         this.petitions = response.data
                     }
                 })
+            },
+
+            getNumPetitions(params) {
+                let newParams = JSON.parse(JSON.stringify(params)); // Deep copy
+                console.log(newParams)
+                delete newParams.count;
+                delete newParams.startIndex;
+                Api.getPetitions(newParams)
+                    .then(response => {
+                        if (response.status == 200) {
+                            this.numPetitions = response.data.length
+                        }
+                    })
+
             },
 
             getAllCategories() {

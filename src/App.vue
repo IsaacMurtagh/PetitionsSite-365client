@@ -56,11 +56,10 @@
                                 this.profile = response.data;
                             } else { // not logged in
                                 this.profile = null;
-                                // this.clearLocalStorage();
+                                this.clearLocalStorage();
                             }
                         })
                 } else {
-                    console.log("not logged in")
                     this.profile = null;
                     this.clearLocalStorage();
                 }
