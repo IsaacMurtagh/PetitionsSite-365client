@@ -27,13 +27,13 @@
         },
 
         computed: {
-            userId: function () {
-                return localStorage.getItem("user_id");
-            },
+            route: function () {
+                return this.$route
+            }
         },
 
         watch: {
-            $route: function () {
+            route: function () {
                 if (!this.profile) {
                     this.getUserDetails();
                 }
@@ -48,9 +48,11 @@
             clearLocalStorage() {
                 localStorage.clear();
             },
+
             getUserDetails() {
                 if (localStorage.getItem("user_id") && localStorage.getItem("token")) {
-                    Api.getProfileInformation(this.userId)
+                    Api.setHeaderToken(localStorage.getItem('token'));
+                    Api.getProfileInformation(localStorage.getItem("user_id"))
                         .then(response => {
                             if (response.status === 200 && response.data.email) {
                                 this.profile = response.data;

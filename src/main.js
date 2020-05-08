@@ -53,6 +53,13 @@ const routes = [
         path: '/profile',
         name: "create",
         component: Profile,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem("token") && localStorage.getItem("user_id")) {
+                next()
+            } else {
+                next({name: "login"})
+            }
+        }
     }
 
 ]

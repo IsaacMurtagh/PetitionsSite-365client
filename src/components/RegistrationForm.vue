@@ -1,5 +1,5 @@
 <template>
-    <body class="card bg-lightblue" @submit="submitRegistration">
+    <body class="card bg-lightblue" @submit.prevent="submitRegistration">
     <div v-if="badForm" class="alert alert-danger m-3">
         {{alertMessage}}
     </div>
@@ -80,6 +80,7 @@
 <script>
     import Api from "@/Api";
     import Images from "@/utils/Images";
+    import Validation from '@/utils/Validation';
 
     export default {
         name: "RegistrationForm",
@@ -153,7 +154,7 @@
 
             checkEmailInput() {
                 const email = this.$data.email;
-                if(!/\s/.test(email) && /[\w]+@[\w]+/.test(email)) {
+                if(Validation.validEmail(email)) {
                     this.successfulInput("email")
                     return true
                 } else {
@@ -238,7 +239,7 @@
                     "password": this.password,
                 }
                 if (this.city) { body.city = this.city }
-                if (this.country) { body.city = this.country }
+                if (this.country) { body.country = this.country }
                 return body
             },
 
@@ -249,8 +250,7 @@
                 }
             },
 
-            submitRegistration(e) {
-                e.preventDefault();
+            submitRegistration() {
                 let redirect = false;
 
                 let completedForm = true;

@@ -10,7 +10,7 @@ const instance = axios.create({
     headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, ContentType, Accept",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE"
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
     }
 });
 
@@ -68,6 +68,13 @@ export default {
             return err.response;
         }),
 
+    editAccount: (body, id) => instance.post("users/" + id, body)
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response;
+        }),
+
     login: (body) => instance.post("users/login", body)
         .then(response => {
             localStorage.setItem("token", response.data.token);
@@ -102,6 +109,10 @@ export default {
             return response;
         }).catch(err => {
             return err.response;
-        })
+        }),
+
+    setHeaderToken: function (token) {
+        instance.defaults.headers.common['X-Authorization'] = token;
+    }
 
 }

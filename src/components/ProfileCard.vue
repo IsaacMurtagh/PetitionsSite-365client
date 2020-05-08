@@ -1,6 +1,6 @@
 <template>
     <body class="card">
-        <div class="card-body m-auto">
+        <div v-if="profile" class="card-body m-auto">
             <div class="image">
                 <img class="rounded-circle img-fluid mx-auto d-block" v-if="image.url" v-bind:src="image.url">
                 <img class="mx-auto d-block" v-else src="../assets/defaultprofile.png">
@@ -56,7 +56,7 @@
                <button class="btn btn-info btn-block m-1" v-on:click="editing = true">Edit</button>
             </div>
             <div v-else class="form-group input-group">
-                <button class="btn btn-success d-inline flex-fill m-1">Save Changes</button>
+                <button class="btn btn-success d-inline flex-fill m-1" v-on:click="submitChanges">Save Changes</button>
                 <button class="btn btn-outline-danger d-inline flex-fill m-1" v-on:click="discardChanges">Discard Changes</button>
             </div>
 
@@ -71,24 +71,41 @@
 
         data() {
             return {
-                user: {
-                    name: this.profile.name,
-                    email: this.profile.email,
-                    city: this.profile.city,
-                    country: this.profile.country,
-                },
+                user: null,
                 editing: false,
-                "imageSet": false,
-                "image": {
-                    "file": null,
-                    "imageName": "Upload profile image",
-                    "type": null,
-                    "url": false
+                imageSet: false,
+                image: {
+                    file: null,
+                    imageName: "Upload profile image",
+                    type: null,
+                    url: false
                 }
             }
         },
 
+        created() {
+            this.fetchData();
+        },
+
+        watch: {
+            profile: function() {
+                this.fetchData();
+            }
+        },
+
         methods: {
+
+            fetchData() {
+                if (this.profile) {
+                    this.user = {
+                        name: this.profile.name,
+                        email: this.profile.email,
+                        city: this.profile.city,
+                        country: this.profile.country,
+                    }
+                }
+            },
+
             successfulInput(elementId) {
                 const element = document.getElementById(elementId);
                 element.classList.add("is-valid");
@@ -124,7 +141,7 @@
             },
 
             uploadFile(e) {
-                if (e.target.files.length > 0) {
+                if (e != null && e.target.files.length > 0) {
                     const file = e.target.files[0]
                     this.imageSet = true;
                     this.image.file = file;
@@ -149,7 +166,31 @@
                     city: this.profile.city,
                     country: this.profile.country,
                 }
+                this.imageSet = false;
                 this.editing = false
+                this.checkProfileUpload()
+            },
+
+            composeEditBody() {
+                let body = {};
+                if (this.user.name !== this.profile.name) {
+                    body.name = this.user.name;
+                }
+                if (this.user.email !== this.profile.email) {
+                    body.email = this.user.email;
+                }
+                if (this.user.city !== this.profile.city) {
+                    body.city = this.user.city;
+                }
+                if (this.user.country !== this.profile.country) {
+                    body.country = this.user.country;
+                }
+
+                return body;
+            },
+
+            submitChanges() {
+                console.log("Changes")
             }
         }
 
@@ -157,13 +198,10 @@
 </script>
 
 <style scoped>
-    .card {
-        border: 1px black solid;
-    }
 
     img {
         height: auto;
-        width: 200px;
+        width: 250px;
         padding: 2px;
         margin-bottom: 10px;
     }

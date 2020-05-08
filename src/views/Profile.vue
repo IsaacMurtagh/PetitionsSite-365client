@@ -11,7 +11,12 @@
         components: {ProfileCard},
         data() {
             return {
-                profile: this.$parent.$data.profile
+            }
+        },
+
+        computed: {
+            profile: function() {
+                return this.$parent.profile;
             }
         }
     }
