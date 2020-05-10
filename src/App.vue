@@ -72,6 +72,9 @@
 </script>
 
 <style>
+    [v-cloak] {
+        display: none;
+    }
 
     .text-darkblue {
         color: #0D1866;
@@ -99,6 +102,8 @@
         margin-left: auto;
         text-align: center;
     }
+
+
 
 
 </style>
