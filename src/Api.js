@@ -68,7 +68,7 @@ export default {
             return err.response;
         }),
 
-    editAccount: (body, id) => instance.post("users/" + id, body)
+    editAccount: (body, id) => instance.patch("users/" + id, body)
         .then(response => {
             return response;
         }).catch(err => {

@@ -165,7 +165,7 @@
 
             checkNameInput() {
                 const name = this.$data.name;
-                if(name.length >= 1) {
+                if(Validation.validName(name)) {
                     this.successfulInput("name")
                     return true
                 } else {
@@ -176,7 +176,7 @@
 
             checkPasswordInput() {
                 const password = this.$data.password;
-                if(password.length >= 1) {
+                if(Validation.validPassword(password)) {
                     this.successfulInput("password")
                     return true
                 } else {
@@ -188,7 +188,7 @@
             checkConfirmPasswordInput() {
                 const password = this.$data.password;
                 const confirmPassword = this.$data.confirmPassword;
-                if(confirmPassword.length >= 1 && confirmPassword === password) {
+                if(Validation.validPassword(confirmPassword) && confirmPassword === password) {
                     this.successfulInput("confirmPassword")
                     return true
                 } else {
@@ -202,7 +202,7 @@
                     this.resetInput("profileImage")
                     this.image.url = null;
                     return true
-                } else if (this.image.type !== "image/png") {
+                } else if (!Validation.validImage(this.image.type)) {
                     this.unsuccessfulInput("profileImage");
                     this.image.url = null;
                     return false
