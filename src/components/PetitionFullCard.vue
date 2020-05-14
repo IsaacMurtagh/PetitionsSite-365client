@@ -1,6 +1,5 @@
 <template>
-    <body class="card bg-info" style="width: auto">
-
+    <div class="card bg-info" style="width: auto">
         <div class="card-header">
             <h1 class="card-title text-center text-light font-weight-bold">{{petition.title}}</h1>
         </div>
@@ -13,7 +12,7 @@
                     <img v-if="userImage" class="profile-image" v-bind:src="userImage">
                     <img v-else class="profile-image" src="../assets/defaultprofile.png">
                 </div>
-                <div class="c">
+                <div class="">
                     <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>
                     <span class="d-block small">{{openDate}}</span>
                     <span class="d-block small">{{closeDate}}</span>
@@ -26,19 +25,23 @@
         </div>
 
         <div class="card-footer text-light">
-            <p class="card-text d-inline"  id="sigantures">Signed by {{petition.signatureCount}} people</p>
-            <button class="float-right btn btn-light" id="sign-petition">Rate</button>
+            <p class="card-text d-inline"  id="sigantures">Signed by {{signatureCount}} people</p>
+            <div class="float-right">
+                <sign-petition-button :petition-id="petitionId" :signed="signed"></sign-petition-button>
+            </div>
         </div>
 
-    </body>
+    </div>
 </template>
 
 <script>
+    import SignPetitionButton from "@/components/SignPetitionButton";
     const moment = require('moment')
 
     export default {
         name: "PetitionFullCard",
-        props: [ "petition", "petitionImage", "userImage" ],
+        components: {SignPetitionButton},
+        props: [ "petition", "petitionImage", "userImage", "signed", "signatureCount"],
 
         data() {
             return {
@@ -46,7 +49,6 @@
                 "title": this.petition.title,
                 "category": this.petition.category,
                 "description": this.petition.description,
-                "signatures": this.petition.signatureCount,
                 "country": this.petition.authorCountry,
                 "city": this.petition.authorCity,
             }

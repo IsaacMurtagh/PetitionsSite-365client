@@ -6,7 +6,7 @@ const SERVER_URL = 'http://localhost:8080/api/v1';
 
 const instance = axios.create({
     baseURL: SERVER_URL,
-    timeout: 1000,
+    timeout: 10000,
     headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, ContentType, Accept",
@@ -91,6 +91,22 @@ export default {
         }).catch(err => {
             return err.response;
         }),
+
+    // Signatures
+    signPetition: (petitionId) => instance.post("petitions/" + petitionId + "/signatures")
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response
+        }),
+
+    deleteSignature: (petitionId) => instance.delete("petitions/" + petitionId + "/signatures")
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response
+        }),
+
 
     uploadProfileImage: (id, rawImage, imageType) => instance.put("users/" + id + "/photo", rawImage,
         {

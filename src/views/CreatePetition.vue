@@ -1,12 +1,14 @@
 <template>
-    <body>
-    <h1>hello</h1>
+    <body class="container">
+    <edit-petition-card></edit-petition-card>
     </body>
 </template>
 
 <script>
+    import EditPetitionCard from "@/components/EditPetitionCard";
     export default {
-        name: "CreatePetition"
+        name: "CreatePetition",
+        components: {EditPetitionCard}
     }
 </script>
 

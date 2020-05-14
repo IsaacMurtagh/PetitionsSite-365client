@@ -17,7 +17,7 @@
 
         <!--Profile Image-->
         <div class="image">
-            <img class="rounded-circle img-fluid mx-auto d-block" v-if="image.url" v-bind:src="image.url">
+            <img class="mx-auto d-block" v-if="image.url" v-bind:src="image.url">
             <img class="mx-auto d-block" v-else src="../assets/defaultprofile.png">
         </div>
 
@@ -150,10 +150,11 @@
 <script>
     import Validation from "@/utils/Validation";
     import Api from "@/Api";
+    import Images from "@/utils/Images";
 
     export default {
         name: "ProfileCard",
-        props: ["profile"],
+        props: ["profile", "profileImage"],
 
         data() {
             return {
@@ -165,7 +166,7 @@
                     file: null,
                     imageName: "Upload profile image",
                     type: null,
-                    url: false
+                    url: null
                 },
                 showPassword: {
                     currentPassword: false,
@@ -195,6 +196,10 @@
                 this.resetInput("currentPassword")
                 this.resetInput("newPassword")
                 this.resetInput("confirmPassword")
+            },
+
+            profileImage: function() {
+                this.image.url = this.profileImage
             }
         },
 
@@ -259,7 +264,7 @@
             checkProfileUpload() {
                 if (!this.imageSet) {
                     this.resetInput("profileImage")
-                    this.image.url = null;
+                    this.image.url = this.profileImage;
                     return true
                 } else if (!Validation.validImage(this.image.type)) {
                     this.unsuccessfulInput("profileImage");
@@ -275,7 +280,7 @@
             checkEmailInput() {
                 const email = this.user.email;
                 if (Validation.validEmail(email)) {
-                    this.successfulInput("editEmail")
+                    this.resetInput("editEmail")
                     return true
                 } else {
                     this.unsuccessfulInput("editEmail")
@@ -286,7 +291,7 @@
             checkNameInput() {
                 const name = this.user.name;
                 if (Validation.validName(name)) {
-                    this.successfulInput("editName")
+                    this.resetInput("editName")
                     return true
                 } else {
                     this.unsuccessfulInput("editName")
@@ -337,6 +342,7 @@
                 this.editingPassword = false;
                 this.successMessage = "";
                 this.errorMessage = "";
+                this.image.url = this.profileImage
                 this.checkProfileUpload()
             },
 
@@ -381,6 +387,8 @@
                         if (!this.checkPasswordInput("newPassword")) {success = false}
                         if (!this.checkPasswordInput("confirmPassword")) {success = false}
                     }
+
+                    if (!this.checkProfileUpload()) {success = false}
                 }
 
                 return success
@@ -390,15 +398,31 @@
                 if(this.checkInputs()) {
                     const userId = localStorage.getItem("user_id");
                     const body = this.composeEditBody();
+                    let successfulRequests = true;
                     if (Object.keys(body).length !== 0) {
                         Api.editAccount(body, userId)
                             .then(response => {
                                 if (response.status === 200) {
                                     this.$parent.$parent.getUserDetails();
+                                    this.resetChangePassword()
                                     this.setBannerMessage("Success: User details saved", true)
                                 } else {
-                                    this.setBannerMessage(response.status, false)
+                                    successfulRequests = false;
+                                    this.setBannerMessage(response.statusText, false)
                                 }
+                            })
+                    }
+                    if (successfulRequests && this.imageSet) { // Then upload the profile image
+                        Images.convertBlobToBase64(this.image.file)
+                            .then(data => {
+                                Api.uploadProfileImage(userId, data, this.image.type)
+                                    .then(response => {
+                                        if (response.status === 200 || response.status === 201) {
+                                            this.setBannerMessage("Success: User details saved", true)
+                                        } else {
+                                            this.setBannerMessage(response.statusText, false)
+                                        }
+                                    })
                             })
                     }
                 }

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-12 col-lg-7 col-xl-8">
             <petition-full-card v-if="render" v-bind:petition="petition" :petition-image="petitionImage"
-                                :user-image="userImage">
+                                :user-image="userImage" :signed="signedPetition" :signature-count="signatureCount">
             </petition-full-card>
         </div>
         <div class="col-12 col-lg-5 col-xl-4">
@@ -33,7 +33,7 @@
                 petition: {},
                 petitionImage: null,
                 userImage: null,
-                signatures: []
+                signatures: [],
             }
         },
         computed: {
@@ -42,6 +42,22 @@
                     return true;
                 }
                 return false;
+            },
+
+            signedPetition: function() {
+                const userId = localStorage.getItem("user_id")
+                if (userId) {
+                    for (let signatory of this.signatures) {
+                        if (Number(signatory.signatoryId) === Number(userId)) { // I have signed petition
+                            return true
+                        }
+                    }
+                }
+                return false
+            },
+
+            signatureCount: function() {
+                return this.signatures.length
             }
         },
 
@@ -57,18 +73,27 @@
                     return ""
                 }
             },
+
+            getSignatures: function () {
+                Api.getSignatures(this.$data.petitionId)
+                    .then(response => {
+                        if (response.status === 200) {
+                            this.$data.signatures = response.data;
+                        }
+                    });
+            }
         },
 
         created() {
             Api.getPetitionsById(this.$data.petitionId)
                 .then(response => {
-                    if(response.status === 200) {
+                    if (response.status === 200) {
                         this.$data.petition = response.data
 
                         Api.getUserImage(this.$data.petition.authorId)
                             .then(imageResponse => {
                                 if (imageResponse.status === 200) {
-                                    this.$data.userImage = Images.dataUrl(response.headers["content-type"], imageResponse.data);
+                                    this.$data.userImage = Images.dataUrl(imageResponse.headers["content-type"], imageResponse.data);
                                 }
                             })
                     }
@@ -76,17 +101,12 @@
 
             Api.getPetitionImage(this.$data.petitionId)
                 .then(response => {
-                    if(response.status === 200){
+                    if (response.status === 200) {
                         this.$data.petitionImage = Images.dataUrl(response.headers["content-type"], response.data);
                     }
                 });
 
-            Api.getSignatures(this.$data.petitionId)
-                .then(response => {
-                    if(response.status === 200) {
-                        this.$data.signatures = response.data;
-                    }
-                });
+            this.getSignatures()
         }
     }
 </script>

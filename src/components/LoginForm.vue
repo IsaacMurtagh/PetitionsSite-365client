@@ -82,10 +82,8 @@
                     if (response.status === 200) {
                         this.alertMessage = "";
                         this.$router.push("/");
-                    } else if (response.status === 400) {
-                        this.alertMessage = "Incorrect email or password"
                     } else {
-                        this.alertMessage = "Something went wrong, please try again"
+                        this.alertMessage = response.statusText
                     }
                 })
             }
