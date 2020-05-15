@@ -1,6 +1,8 @@
 <template>
     <body class="container">
-    <edit-petition-card :categories="categories"></edit-petition-card>
+    <edit-petition-card :categories="categories" :petition="petition"
+                        :petitionImage="petitionImage" :editing="editing">
+    </edit-petition-card>
     </body>
 </template>
 
@@ -10,9 +12,16 @@
     export default {
         name: "CreatePetition",
         components: {EditPetitionCard},
+        props: ["petition", "petitionImage"],
         data() {
             return {
                 categories: []
+            }
+        },
+
+        computed: {
+            editing: function () {
+                return this.petition !== undefined
             }
         },
 

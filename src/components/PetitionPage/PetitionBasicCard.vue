@@ -1,5 +1,5 @@
 <template>
-    <body class="card bg-info" style="width: 36rem">
+    <body class="card bg-info mb-3" style="width: 36rem">
 
         <div class="card-header">
             <div class="card-title text-center text-light h5">
@@ -18,8 +18,7 @@
             </div>
         </div>
         <div class="card-footer text-light">
-            <p class="card-text d-inline"  id="sigantures">Signed by {{signatures}} people</p>
-            <button class="float-right btn btn-light" id="sign-petition">Rate</button>
+            <p class="card-text d-inline"  id="signatures">Signed by {{signatures}} people</p>
         </div>
 
     </body>
@@ -31,13 +30,17 @@
 
     export default {
         name: "PetitionCard",
-        props: ["id", "title", "category", "author", "signatures"],
+        props: ["id", "title", "category", "author", "signatures", "authorId"],
 
         data() {
             return {
                 petitionUrl: "/petition/" + this.id,
                 heroImage: ""
             }
+        },
+
+        computed: {
+
         },
 
         created() {
@@ -64,6 +67,10 @@
     img {
         max-width: 100%;
         max-height: 120px;
+    }
+
+    .card-footer {
+        height: 60px;
     }
 
 </style>

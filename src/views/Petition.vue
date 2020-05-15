@@ -4,7 +4,8 @@
     <div class="row">
         <div class="col-12 col-lg-7 col-xl-8">
             <petition-full-card v-if="render" v-bind:petition="petition" :petition-image="petitionImage"
-                                :user-image="userImage" :signed="signedPetition" :signature-count="signatureCount">
+                                :user-image="userImage" :signed="signedPetition" :signature-count="signatureCount"
+            :isAuthor="isAuthor">
             </petition-full-card>
         </div>
         <div class="col-12 col-lg-5 col-xl-4">
@@ -22,7 +23,7 @@
     import Api from "@/Api";
     import PetitionFullCard from "@/components/PetitionFullCard";
     import Images from "@/utils/Images";
-    import Signatories from "@/components/Signatories";
+    import Signatories from "@/components/PetitionPage/Signatories";
 
     export default {
         name: "Petition",
@@ -42,6 +43,12 @@
                     return true;
                 }
                 return false;
+            },
+
+            isAuthor: function () {
+                console.log(Number(this.petition.authorId))
+                console.log(Number(localStorage.getItem("user_id")))
+                return Number(this.petition.authorId) === Number(localStorage.getItem("user_id"));
             },
 
             signedPetition: function() {

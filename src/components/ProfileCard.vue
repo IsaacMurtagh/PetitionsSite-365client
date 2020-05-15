@@ -2,17 +2,13 @@
     <body class="card">
     <div v-if="profile" class="card-body m-auto">
         <!--success Message-->
-        <div v-if="successMessage" class="card text-white bg-success mb-3">
-            <div class="card-body">
-                <p class="card-text">{{successMessage}}</p>
-            </div>
+        <div v-if="successMessage" class="alert alert-success text-center">
+            <p>{{successMessage}}</p>
         </div>
 
         <!--error Message-->
-        <div v-if="errorMessage" class="card text-white bg-danger mb-3">
-            <div class="card-body">
-                <p class="card-text">{{errorMessage}}</p>
-            </div>
+        <div v-if="errorMessage" class="alert alert-danger text-center">
+            <p>{{errorMessage}}</p>
         </div>
 
         <!--Profile Image-->

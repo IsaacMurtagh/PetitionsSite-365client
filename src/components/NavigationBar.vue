@@ -3,7 +3,7 @@
     <div class="flex-container" id="top-nav">
 
         <div class="flex-item">
-            <router-link v-if="this.loggedIn" to="/create" class="btn btn-outline-light">Create Petition</router-link>
+            <router-link v-if="this.loggedIn" to="/petition" class="btn btn-outline-light">Petition Dashboard</router-link>
         </div>
 
         <div class="flex-item">

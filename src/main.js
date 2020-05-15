@@ -8,6 +8,7 @@ import Petition from "@/views/Petition";
 import Register from "@/views/Register";
 import CreatePetition from "@/views/CreatePetition";
 import Profile from "@/views/Profile";
+import PetitionsDashboard from "@/views/PetitionsDashboard";
 Vue.use(VueRouter);
 
 
@@ -50,8 +51,19 @@ const routes = [
         component: CreatePetition,
     },
     {
+        path: '/edit',
+        name: "edit",
+        props: true,
+        component: CreatePetition,
+    },
+    {
+        path: '/petition',
+        name: 'petition',
+        component: PetitionsDashboard
+    },
+    {
         path: '/profile',
-        name: "create",
+        name: "profile",
         component: Profile,
         beforeEnter(to, from, next) {
             if (localStorage.getItem("token") && localStorage.getItem("user_id")) {

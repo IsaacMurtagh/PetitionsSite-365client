@@ -4,7 +4,7 @@
             <div class="card-text d-flex">
                 <div>
                     <img v-if="userImage" class="profile-image rounded-circle" v-bind:src="userImage">
-                    <img v-else class="profile-image rounded-circle" src="../assets/defaultprofile.png">
+                    <img v-else class="profile-image rounded-circle" src="../../assets/defaultprofile.png">
                 </div>
                 <div>
                     <h6>Signed by: {{signedUser.name}}{{userDetails}}</h6>

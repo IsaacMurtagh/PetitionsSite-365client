@@ -27,7 +27,8 @@
         <div class="card-footer text-light">
             <p class="card-text d-inline"  id="sigantures">Signed by {{signatureCount}} people</p>
             <div class="float-right">
-                <sign-petition-button :petition-id="petitionId" :signed="signed"></sign-petition-button>
+                <sign-petition-button v-if="!isAuthor" :petition-id="petitionId" :signed="signed"></sign-petition-button>
+                <edit-petition-button v-else-if="canEdit" :petition="petition" :petition-image="petitionImage"></edit-petition-button>
             </div>
         </div>
 
@@ -35,13 +36,14 @@
 </template>
 
 <script>
-    import SignPetitionButton from "@/components/SignPetitionButton";
+    import SignPetitionButton from "@/components/PetitionPage/SignPetitionButton";
+    import EditPetitionButton from "@/components/PetitionPage/EditPetitionButton";
     const moment = require('moment')
 
     export default {
         name: "PetitionFullCard",
-        components: {SignPetitionButton},
-        props: [ "petition", "petitionImage", "userImage", "signed", "signatureCount"],
+        components: {EditPetitionButton, SignPetitionButton},
+        props: [ "petition", "petitionImage", "userImage", "signed", "signatureCount", "isAuthor"],
 
         data() {
             return {
@@ -73,6 +75,10 @@
                 } else {
                     return "Closing date is undecided"
                 }
+            },
+
+            canEdit: function () {
+                return this.isAuthor && Date.parse(this.petition.closingDate) > moment.now()
             }
         }
     }
