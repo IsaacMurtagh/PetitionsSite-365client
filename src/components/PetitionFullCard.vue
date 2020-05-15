@@ -79,7 +79,7 @@
 
             canEdit: function () {
                 return this.isAuthor && Date.parse(this.petition.closingDate) > moment.now()
-            }
+            },
         }
     }
 </script>

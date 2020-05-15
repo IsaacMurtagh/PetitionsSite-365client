@@ -38,6 +38,14 @@ export default {
             return err.response
         }),
 
+    editPetition: (body, petitionId) => instance.post("/petitions/" + petitionId, body)
+        .then(response => {
+            return response
+        }).catch((err) => {
+            return err.response
+        }),
+
+
     getPetitionImage: (id) => instance.get("petitions/" + id + "/photo", {responseType: "arraybuffer"})
         .then(response => {
             return response

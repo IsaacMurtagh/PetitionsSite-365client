@@ -1,10 +1,10 @@
 <template>
     <div class="card mx-auto" @submit.prevent="submitPetition">
         <div class="card-header">
-            <div class="text-center">
-                <h1>{{modeName}} petition</h1>
+            <div>
+                <h1 class="text-center">{{modeName}} petition</h1>
                 <form class="card-body bg-lightblue">
-                    <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                    <div v-if="errorMessage" class="alert alert-danger text-center" role="alert">
                         <p >{{ errorMessage }}</p>
                     </div>
                     <div class="row">
@@ -18,16 +18,18 @@
                     </div>
                     <div class="row">
                         <!--Category-->
-                        <div class="col col-12 col-md-6 form-group input-group">
-                            <select class="form-control" id="selectCategory" v-on:click="setCategory">
+                        <div class="col col-12 col-md-6 form-group">
+                            <label for="selectCategory">Petition Category</label>
+                            <select class="form-control" id="selectCategory" v-on:click="setCategory" ref="selectCategory">
                                 <option value="" selected >Select Category</option>
                                 <option v-for="category in this.categories" v-bind:key="category.categoryId" :value="category.categoryId">{{category.name}}</option>
                             </select>
                         </div>
 
                         <!--Date-->
-                        <div class="col col-12 col-md-6 form-group input-group">
-                            <input type="date" id="closingDate" class="form-group form-control" v-model.lazy="petitionData.closingDate">
+                        <div class="col col-12 col-md-6 form-group">
+                            <label for="closingDate">Closing date</label>
+                            <input type="date" id="closingDate" class="form-control" v-model.lazy="petitionData.closingDate">
                         </div>
                     </div>
                     <!--Description-->
@@ -37,7 +39,9 @@
                         </div>
                     </div>
                     <!--Submit category-->
-                    <button class="btn btn-info"> {{ modeName }} Petition</button>
+                    <div class="row">
+                        <button class="btn btn-info mx-auto w-25"> {{ modeName }} Petition</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -46,6 +50,7 @@
 
 <script>
     import Api from "@/Api";
+    const moment = require('moment')
 
     export default {
         name: "EditPetitionCard",
@@ -74,6 +79,10 @@
                     return "Edit"
                 }
                 return "Create"
+            },
+
+            categoryId: function() {
+                return this.petitionData.categoryId
             }
         },
 
@@ -92,8 +101,7 @@
                 if (this.editing && this.petition) {
                     this.petitionData.title = this.petition.title
                     this.petitionData.description = this.petition.description
-                    this.petitionData.closingDate = this.petition.closingDate
-                    this.petitionData.categoryId = this.petition.categoryId
+                    this.petitionData.closingDate = moment(this.petition.closingDate).format("YYYY-MM-DD")
                 }
             },
 
@@ -105,13 +113,28 @@
                         this.errorMessage = ""
                         Api.signPetition(response.data.petitionId)
                         .then(() => {
-                            this.$router.push("/petiition")
+                            this.$router.push("/petition")
                         })
                     } else {
                         this.errorMessage = response.statusText
                     }
                 })
             },
+
+            // When mode is create
+            editPetition: function() {
+                Api.editPetition(this.petitionData, this.petition.petitionId)
+                    .then(response => {
+                        if (response.status === 200) {
+                            this.errorMessage = ""
+                            this.$router.push("/petition")
+                        } else {
+                            this.errorMessage = response.statusText
+                        }
+                    })
+            },
+
+
 
             setCategory() {
                 const e = document.getElementById("selectCategory");
