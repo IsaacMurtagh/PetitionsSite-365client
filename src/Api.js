@@ -38,13 +38,19 @@ export default {
             return err.response
         }),
 
-    editPetition: (body, petitionId) => instance.post("/petitions/" + petitionId, body)
+    editPetition: (body, petitionId) => instance.patch("/petitions/" + petitionId, body)
         .then(response => {
             return response
         }).catch((err) => {
             return err.response
         }),
 
+    deletePetition: (petitionId) => instance.delete("/petitions/" + petitionId)
+        .then(response => {
+            return response
+        }).catch((err) => {
+            return err.response
+        }),
 
     getPetitionImage: (id) => instance.get("petitions/" + id + "/photo", {responseType: "arraybuffer"})
         .then(response => {
@@ -127,7 +133,7 @@ export default {
         {
             headers: {
                 'Content-Type': imageType,
-            }
+            }, responseType: "arraybuffer"
         })
         .then(response => {
             return response;

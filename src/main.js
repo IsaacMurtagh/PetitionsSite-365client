@@ -11,6 +11,9 @@ import Profile from "@/views/Profile";
 import PetitionsDashboard from "@/views/PetitionsDashboard";
 Vue.use(VueRouter);
 
+function loggedIn() {
+    return localStorage.getItem("token") && localStorage.getItem("user_id")
+}
 
 const routes = [
     {
@@ -23,10 +26,10 @@ const routes = [
         name: "login",
         component: Login,
         beforeEnter(to, from, next) {
-            if (localStorage.getItem("token") && localStorage.getItem("user_id")) {
-                next({name: "home"})
-            } else {
+            if (!loggedIn()) {
                 next()
+            } else {
+                next("/")
             }
         }
     },
@@ -44,32 +47,63 @@ const routes = [
         path: '/register',
         name: "register",
         component: Register,
+        beforeEnter(to, from, next) {
+            if (!loggedIn()) {
+                next()
+            } else {
+                next("/")
+            }
+        }
     },
     {
         path: '/create',
         name: "create",
         component: CreatePetition,
+        beforeEnter(to, from, next) {
+            if (loggedIn()) {
+                next()
+            } else {
+                next("/login")
+            }
+        }
     },
     {
         path: '/edit',
         name: "edit",
         props: true,
         component: CreatePetition,
+        beforeEnter(to, from, next) {
+            if (!loggedIn()) {
+                next('/login')
+            } else if (to.params.petition) {
+                next()
+            } else {
+                next('/petition')
+            }
+            next()
+        }
     },
     {
         path: '/petition',
         name: 'petition',
-        component: PetitionsDashboard
+        component: PetitionsDashboard,
+        beforeEnter(to, from, next) {
+            if (loggedIn()) {
+                next()
+            } else {
+                next("/login")
+            }
+        }
     },
     {
         path: '/profile',
         name: "profile",
         component: Profile,
         beforeEnter(to, from, next) {
-            if (localStorage.getItem("token") && localStorage.getItem("user_id")) {
+            if (loggedIn()) {
                 next()
             } else {
-                next({name: "login"})
+                next("/login")
             }
         }
     }

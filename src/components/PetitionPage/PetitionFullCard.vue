@@ -10,7 +10,7 @@
             <div class="d-flex">
                 <div>
                     <img v-if="userImage" class="profile-image" v-bind:src="userImage">
-                    <img v-else class="profile-image" src="../assets/defaultprofile.png">
+                    <img v-else class="profile-image" src="../../assets/defaultprofile.png">
                 </div>
                 <div class="">
                     <h5 class="card-text text-darkblue d-inline align-middle" id="author">By {{petition.authorName}}{{userDetails}}</h5>
@@ -27,8 +27,9 @@
         <div class="card-footer text-light">
             <p class="card-text d-inline"  id="sigantures">Signed by {{signatureCount}} people</p>
             <div class="float-right">
+                <delete-petition-button v-if="isAuthor" :petition-id="petitionId"></delete-petition-button>
                 <sign-petition-button v-if="!isAuthor" :petition-id="petitionId" :signed="signed"></sign-petition-button>
-                <edit-petition-button v-else-if="canEdit" :petition="petition" :petition-image="petitionImage"></edit-petition-button>
+                <edit-petition-button class="d-inline ml-2" v-else-if="canEdit" :petition="petition" :petition-image="petitionImage"></edit-petition-button>
             </div>
         </div>
 
@@ -38,11 +39,12 @@
 <script>
     import SignPetitionButton from "@/components/PetitionPage/SignPetitionButton";
     import EditPetitionButton from "@/components/PetitionPage/EditPetitionButton";
+    import DeletePetitionButton from "@/components/PetitionPage/DeletePetitionButton";
     const moment = require('moment')
 
     export default {
         name: "PetitionFullCard",
-        components: {EditPetitionButton, SignPetitionButton},
+        components: {DeletePetitionButton, EditPetitionButton, SignPetitionButton},
         props: [ "petition", "petitionImage", "userImage", "signed", "signatureCount", "isAuthor"],
 
         data() {
@@ -78,7 +80,10 @@
             },
 
             canEdit: function () {
-                return this.isAuthor && Date.parse(this.petition.closingDate) > moment.now()
+                return this.isAuthor && (
+                    !this.petition.closeDate ||
+                    Date.parse(this.petition.closingDate) > moment.now()
+                )
             },
         }
     }

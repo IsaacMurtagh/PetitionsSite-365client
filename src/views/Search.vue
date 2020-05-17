@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import PetitionCard from "@/components/PetitionPage/PetitionBasicCard";
+    import PetitionCard from "@/components/PetitionBasicCard";
     import Api from "@/Api";
     import AdvancedSearchBar from "@/components/AdvancedSearchBar";
 

@@ -21,7 +21,7 @@
 
 <script>
     import Api from "@/Api";
-    import PetitionFullCard from "@/components/PetitionFullCard";
+    import PetitionFullCard from "@/components/PetitionPage/PetitionFullCard";
     import Images from "@/utils/Images";
     import Signatories from "@/components/PetitionPage/Signatories";
 

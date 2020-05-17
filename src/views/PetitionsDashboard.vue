@@ -33,7 +33,7 @@
 
 <script>
     import Api from "@/Api";
-    import PetitionCard from "@/components/PetitionPage/PetitionBasicCard";
+    import PetitionCard from "@/components/PetitionBasicCard";
 
     export default {
         name: "PetitionsDashboard",
