@@ -18,7 +18,7 @@ export default {
         reader.onload = () => {
             resolve(reader.result);
         };
-        reader.readAsDataURL(blob);
+        reader.readAsArrayBuffer(blob);
     })
 
 }

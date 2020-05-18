@@ -128,8 +128,19 @@ export default {
             return err.response
         }),
 
-
     uploadProfileImage: (id, rawImage, imageType) => instance.put("users/" + id + "/photo", rawImage,
+        {
+            headers: {
+                'Content-Type': imageType,
+            }, responseType: "arraybuffer"
+        })
+        .then(response => {
+            return response;
+        }).catch(err => {
+            return err.response;
+        }),
+
+    uploadPetitionImage: (id, rawImage, imageType) => instance.put("petitions/" + id + "/photo", rawImage,
         {
             headers: {
                 'Content-Type': imageType,

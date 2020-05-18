@@ -264,7 +264,7 @@
                     return true
                 } else if (!Validation.validImage(this.image.type)) {
                     this.unsuccessfulInput("profileImage");
-                    this.image.url = null;
+                    this.image.url = this.profileImage;
                     return false
                 } else {
                     this.successfulInput("profileImage");
@@ -401,7 +401,6 @@
                                 if (response.status === 200) {
                                     this.$parent.$parent.getUserDetails();
                                     this.resetChangePassword()
-                                    this.setBannerMessage("Success: User details saved", true)
                                 } else {
                                     successfulRequests = false;
                                     this.setBannerMessage(response.statusText, false)
@@ -414,12 +413,18 @@
                                 Api.uploadProfileImage(userId, data, this.image.type)
                                     .then(response => {
                                         if (response.status === 200 || response.status === 201) {
-                                            this.setBannerMessage("Success: User details saved", true)
+                                            this.profileImage = this.image.url
                                         } else {
                                             this.setBannerMessage(response.statusText, false)
+                                            successfulRequests = false
                                         }
                                     })
                             })
+                    }
+                    if (successfulRequests) {
+                        setTimeout(() => {
+                            this.discardChanges()
+                        }, 300)
                     }
                 }
             }
