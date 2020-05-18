@@ -140,7 +140,11 @@
             },
 
             checkUpload() {
-                if (!this.imageSet) {
+                if (!this.imageSet && !this.profileImage) {
+                    this.unsuccessfulInput("profileImage");
+                    this.image.url = null;
+                    return false
+                } else if (!this.imageSet) {
                     this.resetInput("profileImage")
                     this.image.url = this.profileImage;
                     return true
