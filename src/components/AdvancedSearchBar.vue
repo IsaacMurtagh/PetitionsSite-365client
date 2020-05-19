@@ -47,7 +47,7 @@
 <script>
     export default {
         name: "AdvancedSearchBar",
-        props: ["categories"],
+        props: ["categories", "currentPage"],
 
         data() {
             return  {
@@ -57,7 +57,6 @@
                     sortBy: null,
                     count: 10
                 },
-                currentPage: 1
             }
         },
 
@@ -76,7 +75,7 @@
 
             startIndex: function () {
                 return (this.currentPage - 1) * this.params.count;
-            }
+            },
         },
 
         methods: {
@@ -110,7 +109,6 @@
                 if(this.startIndex > 0) {
                     query.startIndex = this.startIndex;
                 }
-                console.log(query)
                 return query
             },
 

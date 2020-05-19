@@ -25,7 +25,7 @@
         </div>
 
         <div class="card-footer text-light">
-            <p class="card-text d-inline"  id="sigantures">Signed by {{signatureCount}} people</p>
+            <p class="card-text d-inline"  id="sigantures">Signed by {{signatureCount}} {{signatureToken}}</p>
             <div class="float-right">
                 <delete-petition-button v-if="isAuthor" :petition-id="petitionId"></delete-petition-button>
                 <sign-petition-button v-if="!isAuthor" :petition-id="petitionId" :signed="signed"></sign-petition-button>
@@ -85,6 +85,10 @@
                     Date.parse(this.petition.closingDate) > moment.now()
                 )
             },
+
+            signatureToken: function() {
+                return this.signatureCount === 1 ? "person": "people"
+            }
         }
     }
 </script>

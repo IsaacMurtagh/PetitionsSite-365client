@@ -4,7 +4,7 @@
         <div class="row">
     <!--            Left Toolbar-->
             <div class="col col-12 col-md-3">
-                <advanced-search-bar v-bind:categories="categories"></advanced-search-bar>
+                <advanced-search-bar v-bind:categories="categories" :current-page="currentPage"></advanced-search-bar>
             </div>
 
     <!--            Petition cards-->
@@ -41,6 +41,14 @@
         computed: {
             query: function() {
                 return this.$route.query
+            },
+
+            currentPage: function() {
+                if (this.query.count && this.query.startIndex) {
+                    return Math.floor(this.query.count / this.query.startIndex) + 1
+                } else {
+                    return 1
+                }
             }
         },
 

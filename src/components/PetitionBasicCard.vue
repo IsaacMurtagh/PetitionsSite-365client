@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="card-footer text-light">
-            <p class="card-text d-inline"  id="signatures">Signed by {{signatures}} people</p>
+            <p class="card-text d-inline"  id="signatures">Signed by {{signatures}} {{signatureToken}}</p>
         </div>
 
     </body>
@@ -40,7 +40,9 @@
         },
 
         computed: {
-
+            signatureToken: function() {
+                return this.signatures === 1 ? "person": "people"
+            }
         },
 
         created() {
