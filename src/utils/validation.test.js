@@ -1,5 +1,8 @@
 import validation from "./Validation";
 
+/* Due to fucking up my package.json, I had to reset it and i can't be bothered finding out what
+    dev dependencies i need to make this run again.
+ */
 describe("check email", () => {
 
     const goodEmails = [
