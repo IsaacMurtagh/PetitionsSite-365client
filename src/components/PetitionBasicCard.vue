@@ -53,7 +53,7 @@
             getHeroImage() {
                 Api.getPetitionImage(this.id)
                     .then(response => {
-                        if (response) {
+                        if (response.status === 200) {
                             this.heroImage = Images.dataUrl(response.headers["content-type"], response.data);
                         }
                     })

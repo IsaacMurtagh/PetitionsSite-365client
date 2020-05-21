@@ -46,8 +46,6 @@
             },
 
             isAuthor: function () {
-                console.log(Number(this.petition.authorId))
-                console.log(Number(localStorage.getItem("user_id")))
                 return Number(this.petition.authorId) === Number(localStorage.getItem("user_id"));
             },
 
