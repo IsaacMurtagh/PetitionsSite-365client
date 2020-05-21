@@ -15,7 +15,7 @@
             <div class="col col-sm-12 col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h1 class="card-text">My Petitions</h1>
+                        <h1 class="card-text text-darkblue">My Petitions</h1>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-center">

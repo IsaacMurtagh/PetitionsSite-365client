@@ -9,6 +9,7 @@ import Register from "@/views/Register";
 import CreatePetition from "@/views/CreatePetition";
 import Profile from "@/views/Profile";
 import PetitionsDashboard from "@/views/PetitionsDashboard";
+import NotFound from "@/views/NotFound";
 Vue.use(VueRouter);
 
 function loggedIn() {
@@ -106,7 +107,14 @@ const routes = [
                 next("/login")
             }
         }
+    },
+    {
+        path: '/error',
+        name: "error",
+        component: NotFound,
     }
+
+
 
 ]
 

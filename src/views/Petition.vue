@@ -1,6 +1,7 @@
 <template>
     <body class="container">
     <hr>
+    <share-petition></share-petition>
     <div class="row">
         <div class="col-12 col-lg-7 col-xl-8">
             <petition-full-card v-if="render" v-bind:petition="petition" :petition-image="petitionImage"
@@ -8,7 +9,7 @@
             :isAuthor="isAuthor">
             </petition-full-card>
         </div>
-        <div class="col-12 col-lg-5 col-xl-4">
+        <div class="col-12 col-lg-5 col-xl-4 scrollable">
             <div v-for="signature in signatures" v-bind:key="signature.signatoryId" class="row">
                 <div class="col-12">
                     <signatories v-bind:signedUser="signature"></signatories>
@@ -24,10 +25,11 @@
     import PetitionFullCard from "@/components/PetitionPage/PetitionFullCard";
     import Images from "@/utils/Images";
     import Signatories from "@/components/PetitionPage/Signatories";
+    import SharePetition from "@/components/PetitionPage/SharePetition";
 
     export default {
         name: "Petition",
-        components: {Signatories, PetitionFullCard},
+        components: {SharePetition, Signatories, PetitionFullCard},
         data() {
             return {
                 petitionId: this.$route.params.id,
@@ -101,6 +103,8 @@
                                     this.$data.userImage = Images.dataUrl(imageResponse.headers["content-type"], imageResponse.data);
                                 }
                             })
+                    } else {
+                        this.$router.push("/error")
                     }
                 });
 
@@ -112,10 +116,16 @@
                 });
 
             this.getSignatures()
+
         }
     }
 </script>
 
 <style scoped>
 
+
+    .scrollable {
+        max-height: 100vh;
+        overflow: auto;
+    }
 </style>

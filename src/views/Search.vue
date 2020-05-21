@@ -40,7 +40,11 @@
 
         computed: {
             query: function() {
-                return this.$route.query
+                if(this.$route.query.count) {
+                    return this.$route.query
+                } else {
+                    return {count: 10}
+                }
             },
 
             currentPage: function() {
@@ -60,16 +64,17 @@
         },
 
         created() {
-            this.getNumPetitions(this.$route.query);
-            this.getAllPetitions(this.$route.query);
+            this.getNumPetitions(this.query);
+            this.getAllPetitions(this.query);
             this.getAllCategories();
         },
 
         methods: {
             getAllPetitions (params) {
+                console.log(params)
                 Api.getPetitions(params)
                 .then(response => {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         this.petitions = response.data
                     }
                 })
@@ -77,12 +82,11 @@
 
             getNumPetitions(params) {
                 let newParams = JSON.parse(JSON.stringify(params)); // Deep copy
-                console.log(newParams)
                 delete newParams.count;
                 delete newParams.startIndex;
                 Api.getPetitions(newParams)
                     .then(response => {
-                        if (response.status == 200) {
+                        if (response.status === 200) {
                             this.numPetitions = response.data.length
                         }
                     })

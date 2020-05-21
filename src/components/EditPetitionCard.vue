@@ -1,8 +1,8 @@
 <template>
-    <div class="card mx-auto" @submit.prevent="submitPetition">
+    <div class="card mx-auto mt-2" @submit.prevent="submitPetition">
         <div class="card-header">
             <div>
-                <h1 class="text-center">{{modeName}} petition</h1>
+                <h1 class="text-center text-darkblue">{{modeName}} petition</h1>
                 <form class="card-body bg-lightblue">
                     <div v-if="errorMessage" class="alert alert-danger text-center" role="alert">
                         <p>{{ errorMessage }}</p>

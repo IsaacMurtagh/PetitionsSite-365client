@@ -6,11 +6,11 @@ export default {
     },
 
     validPassword: function(password) {
-        return password && password.length > 1
+        return password && password.length >= 1
     },
 
     validName: function(name) {
-        return name && name.length > 1
+        return name && name.length >= 1
     },
 
     validImage: function(imageType) {

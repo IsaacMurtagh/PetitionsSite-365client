@@ -1,5 +1,5 @@
 <template>
-    <div class="card bg-info" style="width: auto">
+    <div class="card bg-info">
         <div class="card-header">
             <h1 class="card-title text-center text-light font-weight-bold">{{petition.title}}</h1>
         </div>
@@ -28,8 +28,8 @@
             <p class="card-text d-inline"  id="sigantures">Signed by {{signatureCount}} {{signatureToken}}</p>
             <div class="float-right">
                 <delete-petition-button v-if="isAuthor" :petition-id="petitionId"></delete-petition-button>
-                <sign-petition-button v-if="!isAuthor" :petition-id="petitionId" :signed="signed"></sign-petition-button>
-                <edit-petition-button class="d-inline ml-2" v-else-if="canEdit" :petition="petition" :petition-image="petitionImage"></edit-petition-button>
+                <sign-petition-button v-if="canSign" :petition-id="petitionId" :signed="signed"></sign-petition-button>
+                <edit-petition-button class="d-inline ml-2" v-if="canEdit" :petition="petition" :petition-image="petitionImage"></edit-petition-button>
             </div>
         </div>
 
@@ -88,6 +88,13 @@
 
             signatureToken: function() {
                 return this.signatureCount === 1 ? "person": "people"
+            },
+
+            canSign: function() {
+                return !this.isAuthor && (
+                    !this.petition.closeDate ||
+                    Date.parse(this.petition.closingDate) > moment.now()
+                )
             }
         }
     }

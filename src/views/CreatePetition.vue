@@ -1,5 +1,6 @@
 <template>
     <body class="container">
+    <hr>
     <edit-petition-card :categories="categories" :petition="petition"
                         :petitionImage="petitionImage" :editing="editing">
     </edit-petition-card>
